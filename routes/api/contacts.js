@@ -1,5 +1,5 @@
 const express = require("express");
-const functions = require("../../models/contacts.json");
+const functions = require("../../models/contacts.js");
 const router = express.Router();
 
 router.get("/", async (req, res, next) => {
@@ -14,7 +14,14 @@ router.get("/", async (req, res, next) => {
 });
 
 router.get("/:contactId", async (req, res, next) => {
-  res.json({ message: "template message" });
+  try {
+    const contact = await functions.getContactById(req.params.contactId);
+    res.json(contact);
+    res.status(200);
+  } catch (error) {
+    res.json({ message: "Not found" });
+    res.status(404);
+  }
 });
 
 router.post("/", async (req, res, next) => {
