@@ -16,6 +16,7 @@ router.get("/", async (req, res, next) => {
 router.get("/:contactId", async (req, res, next) => {
   try {
     const contact = await functions.getContactById(req.params.contactId);
+
     res.json(contact);
     res.status(200);
   } catch (error) {
@@ -29,7 +30,14 @@ router.post("/", async (req, res, next) => {
 });
 
 router.delete("/:contactId", async (req, res, next) => {
-  res.json({ message: "template message" });
+  try {
+    await functions.removeContact(req.params.contactId);
+    res.json({ message: "contact deleted" });
+    res.status(200);
+  } catch (error) {
+    res.json({ message: "Not found" });
+    res.status(404);
+  }
 });
 
 router.put("/:contactId", async (req, res, next) => {
