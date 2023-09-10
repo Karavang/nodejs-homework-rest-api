@@ -48,7 +48,8 @@ router.delete("/:contactId", async (req, res, next) => {
 });
 
 router.put("/:contactId", async (req, res, next) => {
-  res.json({ message: "template message" });
+  await functions.changeContact(req.params.contactId, req.body);
+  res.json(req.body);
 });
 
 module.exports = router;
