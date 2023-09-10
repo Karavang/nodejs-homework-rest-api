@@ -1,5 +1,7 @@
 const fs = require("fs/promises");
+const { nanoid } = require("nanoid");
 const filePath = "./models/contacts.json";
+
 const listContacts = async () => {
   const data = await fs.readFile(filePath, "utf-8");
   return JSON.parse(data);
@@ -14,7 +16,16 @@ const getContactById = async (contactId) => {
   return res;
 };
 
-const addContact = async (body) => {};
+const addContact = async (body) => {
+  const contacts = await listContacts();
+  const animal = {
+    id: nanoid(),
+    ...body,
+  };
+  contacts.push(animal);
+  console.log(contacts);
+  await updateContacts(contacts);
+};
 
 const removeContact = async (contactId) => {
   const contacts = await listContacts();
