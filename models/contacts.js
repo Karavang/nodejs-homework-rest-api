@@ -8,8 +8,8 @@ const listContacts = async () => {
 };
 const updateContact = (list) =>
   fs.writeFile(filePath, JSON.stringify(list, null, 2));
+
 const getContactById = async (contactId) => {
-  console.log(contactId);
   const list = await listContacts();
   const res = list.find((e) => e.id === contactId);
 
@@ -25,13 +25,22 @@ const addContact = async (body) => {
   contacts.push(animal);
   console.log(contacts);
   await updateContact(contacts);
+  return animal;
 };
 const changeContact = async (id, body) => {
-  console.log(body);
-  console.log(id);
   const contacts = await listContacts();
   const index = contacts.findIndex((e) => e.id === id);
-  contacts[index] = body;
+
+  if (index === -1) {
+    throw new Error("Contact not found");
+  }
+  contacts[index] = {
+    ...contacts[index],
+    ...(body.name && { name: body.name }),
+    ...(body.email && { email: body.email }),
+    ...(body.phone && { phone: body.phone }),
+  };
+
   console.log(contacts);
   await updateContact(contacts);
 };

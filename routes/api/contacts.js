@@ -15,14 +15,12 @@ const ERROR_TYPES = {
 
 const standartBody = Joi.object({
   id: Joi.string(),
-  name: Joi.string().alphanum().required(),
-  email: Joi.string()
-    .email({
-      minDomainSegments: 2,
-      tlds: { allow: ["com", "net"] },
-    })
-    .required(),
-  phone: Joi.number().required(),
+  name: Joi.string().alphanum(),
+  email: Joi.string().email({
+    minDomainSegments: 2,
+    tlds: { allow: ["com", "net"] },
+  }),
+  phone: Joi.number(),
 });
 const validate = (target) => (schema) => (req, res, next) => {
   const result = schema.validate(req[target]);
@@ -40,8 +38,8 @@ const validateBody = validate("body");
 router.get("/", async (req, res, next) => {
   try {
     const contacts = await functions.listContacts();
-    res.json(contacts);
     res.status(200);
+    res.json(contacts);
   } catch (error) {
     next(error);
     console.log(functions);
@@ -49,36 +47,47 @@ router.get("/", async (req, res, next) => {
 });
 
 router.get("/:contactId", async (req, res, next) => {
-  try {
-    const contact = await functions.getContactById(req.params.contactId);
-
-    res.json(contact);
-    res.status(200);
-  } catch (error) {
-    res.json({ message: "Not found" });
-    res.status(404);
+  const contact = await functions.getContactById(req.params.contactId);
+  console.log(contact);
+  if (contact === undefined) {
+    res.status(404).json({ message: "Not found" });
+  } else {
+    res.status(200).json(contact);
   }
 });
 
 router.post("/", [validateBody(standartBody)], async (req, res, next) => {
   console.log(req.body);
   if (req.body.name && req.body.email && req.body.phone) {
-    await functions.addContact(req.body);
+    const contact = await functions.addContact(req.body);
     res.status(201);
+    res.json({ ...contact });
   } else {
-    res.json({ message: "missing required name field" });
     res.status(400);
+    const missingFields = [];
+    if (!req.body.name) {
+      missingFields.push("name");
+    }
+    if (!req.body.email) {
+      missingFields.push("email");
+    }
+    if (!req.body.phone) {
+      missingFields.push("phone");
+    }
+    res.json({
+      message: `missing required ${missingFields.join(", ")} field`,
+    });
   }
 });
 
 router.delete("/:contactId", async (req, res, next) => {
   try {
     await functions.removeContact(req.params.contactId);
-    res.json({ message: "contact deleted" });
     res.status(200);
+    res.json({ message: "contact deleted" });
   } catch (error) {
-    res.json({ message: "Not found" });
     res.status(404);
+    res.json({ message: "Not found" });
   }
 });
 
@@ -87,16 +96,17 @@ router.put(
   [validateBody(standartBody)],
   async (req, res, next) => {
     try {
-      if (req.body.name && req.body.email && req.body.phone) {
+      if (req.body.name || req.body.email || req.body.phone) {
+        const newContact = { id: req.params.contactId, ...req.body };
         await functions.changeContact(req.params.contactId, req.body);
-        res.status(201);
+        res.status(200).json(newContact);
       } else {
-        res.json({ message: "missing fields" });
-        res.status(400);
+        res.status(400).json({ message: "Missing fields" });
+        return;
       }
     } catch (e) {
-      res.json({ message: "Not found" });
-      res.status(404);
+      console.log(e);
+      res.status(404).json({ message: "Not found" });
     }
   }
 );
