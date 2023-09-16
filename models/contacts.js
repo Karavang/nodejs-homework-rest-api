@@ -1,10 +1,11 @@
 const fs = require("fs/promises");
 const { nanoid } = require("nanoid");
+const { Contact } = require("../forDb");
 const filePath = "./models/contacts.json";
 
 const listContacts = async () => {
-  const data = await fs.readFile(filePath, "utf-8");
-  return JSON.parse(data);
+  const contacts = await Contact.find();
+  return contacts;
 };
 const updateContact = (list) =>
   fs.writeFile(filePath, JSON.stringify(list, null, 2));
