@@ -58,7 +58,7 @@ const removeContact = async (contactId) => {
   if (index === -1) {
     throw new Error("Contact not found");
   }
-  contacts.splice(index, 1);
+  await Contact.findByIdAndRemove(contactId);
   console.log(contacts);
   await updateContact(contacts);
 };

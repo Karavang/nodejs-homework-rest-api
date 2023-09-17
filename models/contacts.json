@@ -70,51 +70,11 @@
     "favorite": true
   },
   {
-    "_id": "650778ad3fe9b4d0959728dd",
-    "id": "mj5E_0zc6L9yogH8ouP_3",
+    "_id": "650778ec9611e56f56013aa8",
     "name": "Andrey",
     "email": "shestak@gmail.com",
-    "phone": "05044444444",
-    "favorite": true,
+    "phone": "0504442257",
+    "favorite": false,
     "__v": 0
-  },
-  {
-    "$__": {
-      "activePaths": {
-        "paths": {
-          "name": "init",
-          "favorite": "init",
-          "_id": "init",
-          "email": "init",
-          "phone": "init",
-          "__v": "init"
-        },
-        "states": {
-          "require": {},
-          "default": {},
-          "init": {
-            "_id": true,
-            "name": true,
-            "email": true,
-            "phone": true,
-            "favorite": true,
-            "__v": true
-          }
-        }
-      },
-      "skipId": true
-    },
-    "$isNew": false,
-    "_doc": {
-      "_id": "650778ec9611e56f56013aa8",
-      "name": "Andrey",
-      "email": "shestak@gmail.com",
-      "phone": "05044444444",
-      "favorite": true,
-      "__v": 0
-    },
-    "name": "Andrey",
-    "email": "shestak@gmail.com",
-    "phone": "05044444"
   }
 ]
