@@ -14,13 +14,14 @@ const ERROR_TYPES = {
 };
 
 const standartBody = Joi.object({
-  id: Joi.string(),
+  id: Joi.any(),
   name: Joi.string().alphanum(),
   email: Joi.string().email({
     minDomainSegments: 2,
     tlds: { allow: ["com", "net"] },
   }),
   phone: Joi.number(),
+  favorite: Joi.boolean(),
 });
 const validate = (target) => (schema) => (req, res, next) => {
   const result = schema.validate(req[target]);

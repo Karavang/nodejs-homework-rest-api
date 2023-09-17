@@ -1,7 +1,9 @@
 const fs = require("fs/promises");
-const { nanoid } = require("nanoid");
+
 const { Contact } = require("../forDb");
 const filePath = "./models/contacts.json";
+
+// Create a new ObjectId
 
 const listContacts = async () => {
   const contacts = await Contact.find();
@@ -11,23 +13,18 @@ const updateContact = (list) =>
   fs.writeFile(filePath, JSON.stringify(list, null, 2));
 
 const getContactById = async (contactId) => {
-  const list = await listContacts();
-  const res = list.find((e) => e.id === contactId);
-
+  const res = await Contact.findById(contactId);
   return res;
 };
 
 const addContact = async (body) => {
-  const contacts = await listContacts();
   const animal = {
-    id: nanoid(),
     ...body,
   };
-  contacts.push(animal);
-  console.log(contacts);
-  await updateContact(contacts);
-  return animal;
+  const res = await Contact.create(animal);
+  return res;
 };
+
 const changeContact = async (id, body) => {
   const contacts = await listContacts();
   const index = contacts.findIndex((e) => e.id === id);
@@ -35,15 +32,24 @@ const changeContact = async (id, body) => {
   if (index === -1) {
     throw new Error("Contact not found");
   }
-  contacts[index] = {
-    ...contacts[index],
-    ...(body.name && { name: body.name }),
-    ...(body.email && { email: body.email }),
-    ...(body.phone && { phone: body.phone }),
-  };
 
-  console.log(contacts);
-  await updateContact(contacts);
+  const updateFields = {};
+
+  if (body.name !== undefined) {
+    updateFields.name = body.name;
+  }
+  if (body.email !== undefined) {
+    updateFields.email = body.email;
+  }
+  if (body.phone !== undefined) {
+    updateFields.phone = body.phone;
+  }
+  if (body.favorite !== undefined) {
+    updateFields.favorite = body.favorite;
+  }
+
+  await Contact.findByIdAndUpdate(id, updateFields);
+  console.log("Contact updated successfully");
 };
 
 const removeContact = async (contactId) => {

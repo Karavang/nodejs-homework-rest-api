@@ -8,9 +8,9 @@ const startServer = async () => {
       console.log(
         `We have the problem with connecting with server.Code of the error:${err}`
       );
-      return;
+      process.exit(1);
     }
-    console.log(`Server running. Use our API on port: ${PORT}`);
+    console.log("Database connection successful");
   });
 };
 startServer();
