@@ -14,8 +14,7 @@ const ERROR_TYPES = {
 };
 
 const standartBody = Joi.object({
-  id: Joi.any(),
-  name: Joi.string().alphanum(),
+  name: Joi.string(),
   email: Joi.string().email({
     minDomainSegments: 2,
     tlds: { allow: ["com", "net"] },
@@ -128,5 +127,18 @@ router.put(
     }
   }
 );
+router.patch("/:contactId/favorite", async (req, res, next) => {
+  if (Object.keys(req.body).length !== 0) {
+    if (req.body.favorite === undefined) {
+      return res.status(400).json({ message: "missing field favorite" });
+    }
+
+    await functions.updateStatusContact(req.params.contactId, req.body);
+
+    res.status(200).json(req.body);
+  } else {
+    res.status(404).json({ message: "Not found" });
+  }
+});
 
 module.exports = router;

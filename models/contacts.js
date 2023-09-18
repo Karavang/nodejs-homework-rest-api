@@ -3,8 +3,6 @@ const fs = require("fs/promises");
 const { Contact } = require("../forDb");
 const filePath = "./models/contacts.json";
 
-// Create a new ObjectId
-
 const listContacts = async () => {
   const contacts = await Contact.find();
   return contacts;
@@ -47,9 +45,17 @@ const changeContact = async (id, body) => {
   if (body.favorite !== undefined) {
     updateFields.favorite = body.favorite;
   }
-
+  console.log(updateFields);
   await Contact.findByIdAndUpdate(id, updateFields);
   console.log("Contact updated successfully");
+};
+const updateStatusContact = async (id, body) => {
+  const contact = await getContactById(id);
+  const favor = contact.favorite;
+  const favorite = body.favorite;
+  if (favor !== favorite || favorite !== undefined) {
+    await Contact.findByIdAndUpdate(id, favorite);
+  }
 };
 
 const removeContact = async (contactId) => {
@@ -70,4 +76,5 @@ module.exports = {
   addContact,
   updateContact,
   changeContact,
+  updateStatusContact,
 };
