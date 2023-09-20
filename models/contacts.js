@@ -11,7 +11,9 @@ const updateContact = (list) =>
   fs.writeFile(filePath, JSON.stringify(list, null, 2));
 
 const getContactById = async (contactId) => {
-  const res = await Contact.findById(contactId);
+  const contacts = await listContacts();
+  const res = contacts.find((e) => e.id === contactId);
+  // const res = await Contact.findById(contactId);
   return res;
 };
 
