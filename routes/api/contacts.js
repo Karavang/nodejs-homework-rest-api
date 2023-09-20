@@ -114,12 +114,9 @@ router.patch(
   [validateBody(standartBody)],
   async (req, res, next) => {
     try {
-      // Check if the contactId is valid
       if (!isValideId(req.params.contactId)) {
         return res.status(400).json({ message: "Invalid contactId" });
       }
-
-      // Check if the 'favorite' field is present and is a boolean
       if (
         req.body.favorite === undefined ||
         typeof req.body.favorite !== "boolean"
@@ -129,14 +126,12 @@ router.patch(
           .json({ message: "Invalid or missing field favorite" });
       }
 
-      // Get the contact by contactId
       const contact = await functions.getContactById(req.params.contactId);
 
       if (!contact) {
         return res.status(404).json({ message: "Contact not found" });
       }
 
-      // Update the contact's favorite status
       const updatedContact = await functions.updateStatusContact(
         req.params.contactId,
         req.body
