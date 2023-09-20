@@ -52,9 +52,12 @@ const updateStatusContact = async (id, body) => {
   const contact = await getContactById(id);
   const favor = contact.favorite;
   const favorite = body.favorite;
-  if (favor !== favorite || favorite !== undefined) {
-    await Contact.findByIdAndUpdate(id, favorite);
+  if (favor !== favorite) {
+    await Contact.findByIdAndUpdate(id, { favorite: favorite });
+    const updatedContact = await getContactById(id);
+    return updatedContact;
   }
+  return contact;
 };
 
 const removeContact = async (contactId) => {
