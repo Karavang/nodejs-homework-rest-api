@@ -34,7 +34,7 @@ router.get("/:contactId", async (req, res, next) => {
 
 router.post("/", [validateBody(standartBody)], async (req, res, next) => {
   console.log(req.body);
-  if (req.body.name && req.body.email && req.body.phone) {
+  if (req.body.name && req.body.email && req.body.phone && req.body.favorite) {
     const contact = await functions.addContact(req.body);
     res.status(201);
     res.json({ ...contact });
@@ -50,6 +50,10 @@ router.post("/", [validateBody(standartBody)], async (req, res, next) => {
     if (!req.body.phone) {
       missingFields.push("phone");
     }
+    if (!req.body.favorite) {
+      missingFields.push("favorite");
+    }
+
     res.json({
       message: `missing required ${missingFields.join(", ")} field`,
     });

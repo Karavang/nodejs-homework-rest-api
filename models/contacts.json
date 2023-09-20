@@ -66,15 +66,23 @@
     "_id": "6504b591e08e60a3dd736aa4",
     "name": "Alec Howard",
     "email": "Donec.elementum@scelerisquescelerisquedui.net",
-    "phone": "(748) 206-2688",
-    "favorite": true
+    "phone": "555",
+    "favorite": false
   },
   {
-    "_id": "650778ec9611e56f56013aa8",
-    "name": "Andrey",
+    "_id": "650a9ddb7121a9ce1511f99e",
+    "name": "Andrii",
     "email": "shestak@gmail.com",
-    "phone": "0504442257",
-    "favorite": false,
+    "phone": "55555555",
+    "favorite": true,
+    "__v": 0
+  },
+  {
+    "_id": "650a9f87eeeefba9ab94cf51",
+    "name": "Andrii",
+    "email": "shestak@gmail.com",
+    "phone": "55555555",
+    "favorite": true,
     "__v": 0
   }
 ]

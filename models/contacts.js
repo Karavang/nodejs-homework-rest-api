@@ -16,11 +16,8 @@ const getContactById = async (contactId) => {
 };
 
 const addContact = async (body) => {
-  const animal = {
-    ...body,
-  };
-  const res = await Contact.create(animal);
-  return res;
+  await Contact.create(body);
+  return body;
 };
 
 const changeContact = async (id, body) => {
