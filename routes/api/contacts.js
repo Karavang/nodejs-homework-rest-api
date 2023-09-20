@@ -3,6 +3,7 @@ const functions = require("../../models/contacts.js");
 const Joi = require("joi");
 const router = express.Router();
 const validateBody = require("../../validation.js");
+
 const standartBody = Joi.object({
   name: Joi.string(),
   email: Joi.string().email({
@@ -50,7 +51,7 @@ router.post("/", [validateBody(standartBody)], async (req, res, next) => {
     if (!req.body.phone) {
       missingFields.push("phone");
     }
-    if (!req.body.favorite) {
+    if (req.body.favorite === undefined) {
       missingFields.push("favorite");
     }
 
@@ -111,19 +112,30 @@ router.patch(
   "/:contactId/favorite",
   [validateBody(standartBody)],
   async (req, res, next) => {
-    if (Object.keys(req.body).length !== 0) {
-      if (req.body.favorite === undefined) {
-        return res.status(400).json({ message: "missing field favorite" });
+    try {
+      if (
+        req.body.favorite === undefined ||
+        typeof req.body.favorite !== "boolean"
+      ) {
+        return res
+          .status(400)
+          .json({ message: "Invalid or missing field favorite" });
       }
 
-      const result = await functions.updateStatusContact(
+      const contact = await functions.getContactById(req.params.contactId);
+
+      if (!contact) {
+        return res.status(404).json({ message: "Contact not found" });
+      }
+
+      const updatedContact = await functions.updateStatusContact(
         req.params.contactId,
         req.body
       );
 
-      res.status(200).json(result);
-    } else {
-      res.status(404).json({ message: "Not found" });
+      res.status(200).json(updatedContact);
+    } catch (error) {
+      next(error);
     }
   }
 );

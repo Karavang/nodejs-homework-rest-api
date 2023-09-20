@@ -1,14 +1,10 @@
-const fs = require("fs/promises");
-
 const { Contact } = require("../forDb");
-const filePath = "./models/contacts.json";
+const { default: mongoose } = require("mongoose");
 
 const listContacts = async () => {
   const contacts = await Contact.find();
   return contacts;
 };
-const updateContact = (list) =>
-  fs.writeFile(filePath, JSON.stringify(list, null, 2));
 
 const getContactById = async (contactId) => {
   const contacts = await listContacts();
@@ -49,7 +45,9 @@ const changeContact = async (id, body) => {
   console.log("Contact updated successfully");
 };
 const updateStatusContact = async (id, body) => {
+  mongoose.isValidObjectId(id);
   const contact = await getContactById(id);
+
   const favor = contact.favorite;
   const favorite = body.favorite;
   if (favor !== favorite) {
@@ -67,8 +65,6 @@ const removeContact = async (contactId) => {
     throw new Error("Contact not found");
   }
   await Contact.findByIdAndRemove(contactId);
-  console.log(contacts);
-  await updateContact(contacts);
 };
 
 module.exports = {
@@ -76,7 +72,7 @@ module.exports = {
   getContactById,
   removeContact,
   addContact,
-  updateContact,
+
   changeContact,
   updateStatusContact,
 };
