@@ -36,7 +36,7 @@ router.get("/:contactId", async (req, res, next) => {
 
 router.post("/", [validateBody(standartBody)], async (req, res, next) => {
   console.log(req.body);
-  if (req.body.name && req.body.email && req.body.phone && req.body.favorite) {
+  if (req.body.name && req.body.email && req.body.phone) {
     const contact = await functions.addContact(req.body);
     res.status(201);
     res.json({ ...contact });
@@ -51,9 +51,6 @@ router.post("/", [validateBody(standartBody)], async (req, res, next) => {
     }
     if (!req.body.phone) {
       missingFields.push("phone");
-    }
-    if (req.body.favorite === undefined) {
-      missingFields.push("favorite");
     }
 
     res.json({
@@ -129,7 +126,7 @@ router.patch(
       const contact = await functions.getContactById(req.params.contactId);
 
       if (!contact) {
-        return res.status(404).json({ message: "Contact not found" });
+        return res.status(404).json({ message: "Not found" });
       }
 
       const updatedContact = await functions.updateStatusContact(
