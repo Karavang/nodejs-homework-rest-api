@@ -114,13 +114,13 @@ router.patch(
       if (!isValideId(req.params.contactId)) {
         return res.status(400).json({ message: "Invalid contactId" });
       }
-      if (
-        req.body.favorite === undefined ||
-        typeof req.body.favorite !== "boolean"
-      ) {
-        return res
-          .status(400)
-          .json({ message: "Invalid or missing field favorite" });
+
+      if (req.body.favorite === undefined) {
+        return res.status(400).json({ message: "Missing field favorite" });
+      }
+
+      if (typeof req.body.favorite !== "boolean") {
+        return res.status(400).json({ message: "Invalid type for favorite" });
       }
 
       const contact = await functions.getContactById(req.params.contactId);
