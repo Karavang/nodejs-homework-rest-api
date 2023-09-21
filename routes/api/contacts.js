@@ -111,6 +111,7 @@ router.patch(
   [validateBody(standartBody)],
   async (req, res, next) => {
     try {
+      console.log(req);
       if (!isValideId(req.params.contactId)) {
         return res.status(400).json({ message: "Invalid contactId" });
       }

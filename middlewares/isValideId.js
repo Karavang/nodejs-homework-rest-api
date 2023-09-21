@@ -1,13 +1,7 @@
-const { isValidObjectId } = require("mongoose");
+const { default: mongoose } = require("mongoose");
 
-const { HttpError } = require("../validation");
-
-const isValidId = (req, res, next) => {
-  const { id } = req.params;
-  if (!isValidObjectId(id)) {
-    next(HttpError(400, `${id} is not valid id`));
-  }
-  next();
+const isValideId = async (id) => {
+  const isVal = mongoose.isValidObjectId(id);
+  console.log(isVal);
 };
-
-module.exports = isValidId;
+module.exports = isValideId;
