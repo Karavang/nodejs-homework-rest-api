@@ -1,5 +1,5 @@
-const createError = (ERROR_TYPE, { message, data }) => {
-  return { type: ERROR_TYPE, message, data };
+const createError = (ERROR_TYPE, { message, data, status }) => {
+  return { type: ERROR_TYPE, message, data, status: 400 };
 };
 const validate = (target) => (schema) => (req, res, next) => {
   const result = schema.validate(req[target]);
