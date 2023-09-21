@@ -40,9 +40,8 @@ const changeContact = async (id, body) => {
   if (body.favorite !== undefined) {
     updateFields.favorite = body.favorite;
   }
-  console.log(updateFields);
+
   await Contact.findByIdAndUpdate(id, updateFields);
-  console.log("Contact updated successfully");
 };
 const updateStatusContact = async (id, body) => {
   mongoose.isValidObjectId(id);
