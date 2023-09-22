@@ -15,6 +15,7 @@ const getContactById = async (contactId) => {
 
 const addContact = async (body) => {
   const contact = await Contact.create(body);
+
   return contact._doc;
 };
 

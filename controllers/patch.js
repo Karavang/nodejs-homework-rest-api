@@ -1,11 +1,6 @@
 const functions = require("../models/contacts");
-const isValideId = require("../middlewares/isValideId");
 const patchFunc = async (req, res, next) => {
   try {
-    if (!isValideId(req.params.contactId)) {
-      return res.status(400).json({ message: "Invalid contactId" });
-    }
-
     if (req.body.favorite === undefined) {
       return res.status(400).json({ message: "Missing field favorite" });
     }

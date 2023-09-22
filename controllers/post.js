@@ -1,10 +1,8 @@
 const functions = require("../models/contacts");
 const postFunc = async (req, res, next) => {
-  console.log(req.body);
   if (req.body.name && req.body.email && req.body.phone) {
     const contact = await functions.addContact(req.body);
-    res.status(201);
-    res.json({ ...contact });
+    res.status(201).json({ ...contact });
   } else {
     res.status(400);
     const missingFields = [];

@@ -6,7 +6,6 @@ const getFunc = async (req, res, next) => {
     res.json(contacts);
   } catch (error) {
     next(error);
-    console.log(functions);
   }
 };
 module.exports = getFunc;
