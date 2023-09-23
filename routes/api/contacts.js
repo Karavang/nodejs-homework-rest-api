@@ -8,6 +8,7 @@ const postFunc = require("../../controllers/post.js");
 const deleteFunc = require("../../controllers/delete.js");
 const putFunc = require("../../controllers/put.js");
 const patchFunc = require("../../controllers/patch.js");
+const isValidId = require("../../isValidId.js");
 
 const standartBody = Joi.object({
   name: Joi.string(),
@@ -25,7 +26,7 @@ router.post("/", [validateBody(standartBody)], postFunc);
 
 router.delete("/:contactId", deleteFunc);
 
-router.put("/:contactId", [validateBody(standartBody)], putFunc);
+router.put("/:contactId", isValidId, [validateBody(standartBody)], putFunc);
 router.patch("/:contactId/favorite", [validateBody(standartBody)], patchFunc);
 
 module.exports = router;
