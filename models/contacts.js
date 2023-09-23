@@ -43,6 +43,7 @@ const changeContact = async (id, body) => {
   }
 
   await Contact.findByIdAndUpdate(id, updateFields);
+  return await getContactById(id);
 };
 const updateStatusContact = async (id, body) => {
   mongoose.isValidObjectId(id);

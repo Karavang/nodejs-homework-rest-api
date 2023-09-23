@@ -3,9 +3,11 @@ const putFunc = async (req, res, next) => {
   try {
     if (req.body.name || req.body.email || req.body.phone) {
       if (req.body.name && req.body.email && req.body.phone) {
-        const newContact = { id: req.params.contactId, ...req.body };
-        await functions.changeContact(req.params.contactId, req.body);
-        res.status(200).json(newContact);
+        const newCFromBase = await functions.changeContact(
+          req.params.contactId,
+          req.body
+        );
+        res.status(200).json(newCFromBase);
       } else {
         res.status(400);
         const missingFields = [];
