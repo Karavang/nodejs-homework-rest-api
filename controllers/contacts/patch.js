@@ -1,4 +1,4 @@
-const functions = require("../models/contacts");
+const functions = require("../../models/contacts");
 const patchFunc = async (req, res, next) => {
   try {
     if (req.body.favorite === undefined) {

@@ -43,7 +43,7 @@ const users = new Schema({
   },
   owner: {
     type: Schema.Types.ObjectId,
-    ref: "user",
+    ref: "users",
   },
 });
 const Users = model("users", users);

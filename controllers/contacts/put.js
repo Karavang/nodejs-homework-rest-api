@@ -1,4 +1,4 @@
-const functions = require("../models/contacts");
+const functions = require("../../models/contacts");
 const putFunc = async (req, res, next) => {
   try {
     const newCFromBase = await functions.changeContact(

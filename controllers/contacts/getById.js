@@ -1,4 +1,4 @@
-const functions = require("../models/contacts");
+const functions = require("../../models/contacts");
 const getByIdFunc = async (req, res, next) => {
   const contact = await functions.getContactById(req.params.contactId);
 

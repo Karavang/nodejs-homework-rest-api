@@ -1,4 +1,4 @@
-const functions = require("../models/contacts");
+const functions = require("../../models/contacts");
 
 const deleteFunc = async (req, res, next) => {
   try {
