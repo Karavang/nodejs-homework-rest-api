@@ -31,13 +31,13 @@ const standartBody = Joi.object({
 });
 
 router.get("/", getFunc);
-router.get("/:contactId", getByIdFunc);
+router.get("/:contactId", isValidId, getByIdFunc);
 
 router.post("/", [validateBody(standartBody)], postFunc);
 
-router.delete("/:contactId", deleteFunc);
+router.delete("/:contactId", isValidId, deleteFunc);
 
 router.put("/:contactId", isValidId, [validateBody(standartBody)], putFunc);
-router.patch("/:contactId/favorite", patchFunc);
+router.patch("/:contactId/favorite", isValidId, patchFunc);
 
 module.exports = router;
