@@ -1,7 +1,7 @@
 const { Users } = require("../../forDb");
 const bcrypt = require("bcrypt");
 
-const reg = async (req, res, next) => {
+const reg = async (req, res) => {
   const contacts = await Users.find();
   const { body } = req;
   const ifAlso = contacts.find((e) => e.email === body.email);

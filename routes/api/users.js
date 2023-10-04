@@ -4,7 +4,7 @@ const router = new Router();
 const reg = require("../../controllers/users/reg");
 const validateBody = require("../../validation.js");
 const Joi = require("joi");
-
+const auth = require("../../middlewares/auth");
 const standartBody = Joi.object({
   email: Joi.string()
     .email({
@@ -20,5 +20,5 @@ const standartBody = Joi.object({
 });
 
 router.post("/register", [validateBody(standartBody)], reg);
-router.post("/login", [validateBody(standartBody)], login);
+router.post("/login", [validateBody(standartBody), auth], login);
 module.exports = router;

@@ -1,25 +1,33 @@
+const jwt = require("jsonwebtoken");
 const { Users } = require("../../forDb");
 const bcrypt = require("bcrypt");
-
-const login = async (req, res, next) => {
+const JWTSECRET = "aboba";
+const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const user = await Users.find({ email }).where("deletedAt").equals(null);
-    if (!user[0]) {
+    const [user] = await Users.find({ email }).where("deletedAt").equals(null);
+    if (!user) {
       throw new Error();
     }
-    console.log(user[0]);
-    const { password: hashedPassword } = user[0];
+
+    const { password: hashedPassword } = user;
     const checkPass = await bcrypt.compare(password, hashedPassword);
 
     if (!checkPass) {
       throw new Error();
     }
-    const userMy = user[0];
+    user.token = jwt.sign(
+      { id: user._id, email: user.email, subscription: user.subscription },
+      JWTSECRET,
+      {
+        expiresIn: 3600,
+      }
+    );
+    console.log(user);
     res.status(200).json({
-      token: userMy.token,
-      user: { email: userMy.email, password: userMy.password },
+      token: user.token,
+      user: { email: user.email, subscription: user.subscription },
     });
   } catch (error) {
     res.status(401).json({ message: "Email or password is wrong" });
