@@ -1,2 +1,2 @@
-const login = async () => {};
+const login = async (req, res, next) => {};
 module.exports = login;

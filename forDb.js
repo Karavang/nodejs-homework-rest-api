@@ -22,30 +22,33 @@ const contact = new Schema(
 
 const Contact = model("contact", contact);
 
-const users = new Schema({
-  password: {
-    type: String,
-    required: [true, "Password is required"],
+const users = new Schema(
+  {
+    password: {
+      type: String,
+      required: [true, "Password is required"],
+    },
+    email: {
+      type: String,
+      required: [true, "Email is required"],
+      unique: true,
+    },
+    subscription: {
+      type: String,
+      enum: ["starter", "pro", "business"],
+      default: "starter",
+    },
+    token: {
+      type: String,
+      default: null,
+    },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "users",
+    },
   },
-  email: {
-    type: String,
-    required: [true, "Email is required"],
-    unique: true,
-  },
-  subscription: {
-    type: String,
-    enum: ["starter", "pro", "business"],
-    default: "starter",
-  },
-  token: {
-    type: String,
-    default: null,
-  },
-  owner: {
-    type: Schema.Types.ObjectId,
-    ref: "users",
-  },
-});
+  { versionKey: false }
+);
 const Users = model("users", users);
 const mongoConnect = async () => {
   try {
