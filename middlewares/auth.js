@@ -8,11 +8,10 @@ const auth = async (req, res, next) => {
     const undecoded = jwt.decode(authorizationParts[1]);
 
     const contacts = await Users.find();
-    console.log(req.body);
+
     const undecodedUser = contacts.find((e) => e.id === undecoded.id);
-    console.log(undecodedUser);
-    console.log(req.body);
-    // req.body = { ...undecodedUser };
+
+    req.body = undecodedUser;
 
     next();
   } else {

@@ -5,6 +5,7 @@ const reg = require("../../controllers/users/reg");
 const validateBody = require("../../validation.js");
 const Joi = require("joi");
 const auth = require("../../middlewares/auth");
+const current = require("../../controllers/users/current");
 const standartBody = Joi.object({
   email: Joi.string()
     .email({
@@ -18,7 +19,7 @@ const standartBody = Joi.object({
     }),
   password: Joi.string().pattern(/^[a-zA-Z0-9@#$%^&+=*!_-]{8,30}$/),
 });
-
+router.get("/current", [auth], current);
 router.post("/register", [validateBody(standartBody)], reg);
 router.post("/login", [validateBody(standartBody), auth], login);
 module.exports = router;
