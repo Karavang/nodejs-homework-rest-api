@@ -11,7 +11,7 @@ const auth = async (req, res, next) => {
 
     const undecodedUser = contacts.find((e) => e.id === undecoded.id);
 
-    req.body = undecodedUser;
+    // res.body = undecodedUser;
 
     next();
   } else {
