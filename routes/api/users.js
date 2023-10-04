@@ -20,10 +20,5 @@ const standartBody = Joi.object({
 });
 
 router.post("/register", [validateBody(standartBody)], reg);
-router.post("/login", [validateBody(standartBody)], async (req, res, next) => {
-  const { body } = req;
-  try {
-    const log = await login();
-  } catch (error) {}
-});
+router.post("/login", [validateBody(standartBody)], login);
 module.exports = router;
