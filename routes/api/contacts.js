@@ -43,6 +43,6 @@ router.put(
   [validateBody(standartBody), auth],
   putFunc
 );
-router.patch("/:contactId/favorite", [isValidId, auth], patchFunc);
+router.patch("/:contactId/favorite", isValidId, auth, patchFunc);
 
 module.exports = router;

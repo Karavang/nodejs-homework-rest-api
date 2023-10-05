@@ -11,7 +11,7 @@ const patchFunc = async (req, res, next) => {
 
     const contact = await functions.getContactById(req.params.contactId);
 
-    if (!contact) {
+    if (!contact && contact.owner.toString() !== req.user.id) {
       return res.status(404).json({ message: "Not found" });
     }
 
