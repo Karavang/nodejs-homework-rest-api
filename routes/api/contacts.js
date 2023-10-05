@@ -9,7 +9,7 @@ const deleteFunc = require("../../controllers/contacts/delete.js");
 const putFunc = require("../../controllers/contacts/put.js");
 const patchFunc = require("../../controllers/contacts/patch.js");
 const isValidId = require("../../isValidId.js");
-
+const auth = require("../../middlewares/auth");
 const standartBody = Joi.object({
   name: Joi.string().required().messages({
     "any.required": "missing required name field",
@@ -30,14 +30,19 @@ const standartBody = Joi.object({
   favorite: Joi.boolean(),
 });
 
-router.get("/", getFunc);
-router.get("/:contactId", isValidId, getByIdFunc);
+router.get("/", auth, getFunc);
+router.get("/:contactId", isValidId, auth, getByIdFunc);
 
-router.post("/", [validateBody(standartBody)], postFunc);
+router.post("/", [validateBody(standartBody), auth], postFunc);
 
-router.delete("/:contactId", isValidId, deleteFunc);
+router.delete("/:contactId", isValidId, auth, deleteFunc);
 
-router.put("/:contactId", isValidId, [validateBody(standartBody)], putFunc);
-router.patch("/:contactId/favorite", isValidId, patchFunc);
+router.put(
+  "/:contactId",
+  isValidId,
+  [validateBody(standartBody), auth],
+  putFunc
+);
+router.patch("/:contactId/favorite", [isValidId, auth], patchFunc);
 
 module.exports = router;

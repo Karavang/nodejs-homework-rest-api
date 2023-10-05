@@ -16,6 +16,10 @@ const contact = new Schema(
       type: Boolean,
       default: false,
     },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "users",
+    },
   },
   { versionKey: false }
 );
@@ -41,10 +45,6 @@ const users = new Schema(
     token: {
       type: String,
       default: null,
-    },
-    owner: {
-      type: Schema.Types.ObjectId,
-      ref: "users",
     },
   },
   { versionKey: false }
