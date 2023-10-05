@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const { Users } = require("../../forDb");
 const bcrypt = require("bcrypt");
-const JWTSECRET = "aboba";
+const { JWTSECRET } = process.env;
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -24,7 +24,7 @@ const login = async (req, res) => {
         expiresIn: 3600,
       }
     );
-    console.log(user);
+
     res.status(200).json({
       token: user.token,
       user: { email: user.email, subscription: user.subscription },
