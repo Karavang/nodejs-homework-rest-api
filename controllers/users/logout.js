@@ -6,7 +6,7 @@ const logout = async (req, res) => {
     if (token !== undefined) {
       delete req.headers.authorization;
     }
-    console.log(req.headers.authorization);
+
     res.status(204).end();
   } catch (error) {
     res.status(401).json({ message: "Not authorized" });

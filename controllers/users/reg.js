@@ -18,7 +18,9 @@ const reg = async (req, res) => {
     user.token = token;
     await user.save();
 
-    res.status(201).json({ message: user });
+    res
+      .status(201)
+      .json({ user: { email: user.email, subscription: user.subscription } });
   } else {
     res.status(409).json({ message: "Email in use" });
   }
