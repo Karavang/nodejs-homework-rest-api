@@ -24,6 +24,7 @@ const login = async (req, res) => {
         expiresIn: 3600,
       }
     );
+    await user.save();
 
     res.status(200).json({
       token: user.token,

@@ -22,6 +22,6 @@ const standartBody = Joi.object({
 });
 router.get("/current", [auth], current);
 router.post("/register", [validateBody(standartBody)], reg);
-router.post("/login", [validateBody(standartBody), auth], login);
+router.post("/login", [validateBody(standartBody)], login);
 router.post("/logout", [auth], logout);
 module.exports = router;

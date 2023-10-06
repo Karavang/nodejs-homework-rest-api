@@ -1,6 +1,7 @@
 const functions = require("../../models/contacts");
 const getFunc = async (req, res, next) => {
   console.log(req.user.id);
+  console.log(req.headers.authorization);
   try {
     const contacts = await functions.listContacts();
     const ownersContacts = contacts.filter(

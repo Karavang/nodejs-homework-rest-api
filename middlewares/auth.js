@@ -3,6 +3,7 @@ const { JWTSECRET } = process.env;
 const { Users } = require("../forDb");
 
 const auth = async (req, res, next) => {
+  console.log(req.headers.authorization);
   try {
     if (req.headers.authorization !== undefined) {
       const authParts = req.headers.authorization.split(" ");
@@ -17,6 +18,7 @@ const auth = async (req, res, next) => {
           res.status(401).json({ message: "Not authorized" });
           return;
         }
+        console.log(req.user);
         req.user = user;
         next();
       }
