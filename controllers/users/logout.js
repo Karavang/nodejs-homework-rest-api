@@ -1,7 +1,6 @@
 const logout = async (req, res) => {
   try {
-    const authorizationParts = req.headers.authorization.split(" ");
-    const token = authorizationParts[1];
+    const token = req.user.token;
 
     if (token !== undefined) {
       delete req.headers.authorization;

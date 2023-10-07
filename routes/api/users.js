@@ -18,10 +18,10 @@ const standartBody = Joi.object({
       "any.required": "missing required email field",
       "string.email": "invalid email format",
     }),
-  password: Joi.string().pattern(/^[a-zA-Z0-9@#$%^&+=*!_-]{8,30}$/),
+  password: Joi.string().pattern(/^[a-zA-Z0-9@#$%^&+=*!_-]*$/),
 });
-router.get("/current", [auth], current);
+router.get("/current", auth, current);
 router.post("/register", [validateBody(standartBody)], reg);
 router.post("/login", [validateBody(standartBody)], login);
-router.post("/logout", [auth], logout);
+router.post("/logout", auth, logout);
 module.exports = router;

@@ -31,7 +31,7 @@ const standartBody = Joi.object({
 });
 
 router.get("/", auth, getFunc);
-router.get("/:contactId", isValidId, auth, getByIdFunc);
+router.get("/:contactId", auth, isValidId, getByIdFunc);
 
 router.post("/", [validateBody(standartBody), auth], postFunc);
 
