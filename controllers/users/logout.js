@@ -3,7 +3,7 @@ const logout = async (req, res) => {
     const token = req.user.token;
 
     if (token !== undefined) {
-      delete req.headers.authorization;
+      delete req.user.token;
     }
 
     res.status(204).end();
