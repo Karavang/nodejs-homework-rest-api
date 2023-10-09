@@ -5,10 +5,10 @@ const { Users } = require("../forDb");
 const auth = async (req, res, next) => {
   try {
     if (req.headers.authorization !== undefined) {
-      const authParts = req.headers.authorization.split(" ");
-      const bearer = authParts[0];
-      const token = authParts[1];
-
+      const { authorization = "" } = req.headers;
+      const [bearer, token] = authorization.split(" ");
+      console.log(bearer);
+      console.log(token);
       if (bearer === "Bearer") {
         const { id } = jwt.verify(token, JWTSECRET);
 
