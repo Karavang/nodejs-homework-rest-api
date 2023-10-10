@@ -6,8 +6,7 @@ const auth = async (req, res, next) => {
   try {
     const { authorization = "" } = req.headers;
     const [bearer, token] = authorization.split(" ");
-    console.log(bearer);
-    console.log(token);
+
     if (bearer === "Bearer") {
       const { id } = jwt.verify(token, JWTSECRET);
 
