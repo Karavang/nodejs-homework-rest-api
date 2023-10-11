@@ -1,10 +1,8 @@
-const functions = require("../../models/contacts");
+// const functions = require("../../models/contacts");
+const { Contact } = require("../../forDb");
 const getFunc = async (req, res, next) => {
   try {
-    const contacts = await functions.listContacts();
-    const ownersContacts = contacts.filter(
-      (e) => e.owner.toString() === req.user.id
-    );
+    const ownersContacts = await Contact.find({ owner: req.user.id }).exec();
     res.status(200).json(ownersContacts);
   } catch (error) {
     next(error);
