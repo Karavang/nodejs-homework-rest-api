@@ -1,6 +1,6 @@
 const { Schema, model, connect } = require("mongoose");
 const fromEnv = process.env;
-const schema = new Schema(
+const contact = new Schema(
   {
     name: {
       type: String,
@@ -16,11 +16,40 @@ const schema = new Schema(
       type: Boolean,
       default: false,
     },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "users",
+    },
   },
   { versionKey: false }
 );
-const Contact = model("contact", schema);
 
+const Contact = model("contact", contact);
+
+const users = new Schema(
+  {
+    password: {
+      type: String,
+      required: [true, "Password is required"],
+    },
+    email: {
+      type: String,
+      required: [true, "Email is required"],
+      unique: true,
+    },
+    subscription: {
+      type: String,
+      enum: ["starter", "pro", "business"],
+      default: "starter",
+    },
+    token: {
+      type: String,
+      default: null,
+    },
+  },
+  { versionKey: false }
+);
+const Users = model("users", users);
 const mongoConnect = async () => {
   try {
     await connect(fromEnv.LINK);
@@ -29,4 +58,4 @@ const mongoConnect = async () => {
   }
 };
 
-module.exports = { Contact, mongoConnect };
+module.exports = { Contact, Users, mongoConnect };
