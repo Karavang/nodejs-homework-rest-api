@@ -7,6 +7,8 @@ const Joi = require("joi");
 const auth = require("../../middlewares/auth");
 const current = require("../../controllers/users/current");
 const logout = require("../../controllers/users/logout");
+const upload = require("../../middlewares/upload");
+const updateAvatar = require("../../controllers/users/updateAvatars");
 const standartBody = Joi.object({
   email: Joi.string()
     .email({
@@ -24,4 +26,5 @@ router.get("/current", auth, current);
 router.post("/register", [validateBody(standartBody)], reg);
 router.post("/login", [validateBody(standartBody)], login);
 router.post("/logout", auth, logout);
+router.patch("/avatars", auth, upload.single("avatar"), updateAvatar);
 module.exports = router;

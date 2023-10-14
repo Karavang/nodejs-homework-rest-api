@@ -1,5 +1,6 @@
 const { Users } = require("../../forDb");
 const bcrypt = require("bcrypt");
+const gravatar = require("gravatar");
 const reg = async (req, res) => {
   const contacts = await Users.find();
   const { body } = req;
@@ -7,18 +8,20 @@ const reg = async (req, res) => {
 
   if (ifAlso === undefined) {
     const passwordHash = await bcrypt.hash(body.password, 10);
-    const user = await Users.create({ ...body, password: passwordHash });
-    // const payload = {
-    //   id: user._id,
-    // };
+    const avatarURL = gravatar.url(body.email);
+    const user = await Users.create({
+      ...body,
+      password: passwordHash,
+      avatarURL,
+    });
 
-    // const token = jwt.sign(payload, JWTSECRET, { expiresIn: "23h" });
-    // user.token = token;
-    // await user.save();
-
-    res
-      .status(201)
-      .json({ user: { email: user.email, subscription: user.subscription } });
+    res.status(201).json({
+      user: {
+        email: user.email,
+        subscription: user.subscription,
+        avatarURL,
+      },
+    });
   } else {
     res.status(409).json({ message: "Email in use" });
   }
