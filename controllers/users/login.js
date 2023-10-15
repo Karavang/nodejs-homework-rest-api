@@ -17,6 +17,12 @@ const login = async (req, res) => {
     if (!checkPass) {
       throw new Error();
     }
+    if (!user.verify) {
+      res.status(401).json({
+        message: "Email is not verified, please,verify your email",
+      });
+      return;
+    }
     user.token = jwt.sign(
       { id: user._id, email: user.email, subscription: user.subscription },
       JWTSECRET,
