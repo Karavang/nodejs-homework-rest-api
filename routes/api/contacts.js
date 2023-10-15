@@ -32,17 +32,9 @@ const standartBody = Joi.object({
 
 router.get("/", auth, getFunc);
 router.get("/:contactId", auth, isValidId, getByIdFunc);
-
-router.post("/", [validateBody(standartBody), auth], postFunc);
-
+router.post("/", validateBody(standartBody), auth, postFunc);
 router.delete("/:contactId", isValidId, auth, deleteFunc);
-
-router.put(
-  "/:contactId",
-  isValidId,
-  [validateBody(standartBody), auth],
-  putFunc
-);
+router.put("/:contactId", isValidId, validateBody(standartBody), auth, putFunc);
 router.patch("/:contactId/favorite", isValidId, auth, patchFunc);
 
 module.exports = router;
